@@ -8,13 +8,13 @@ const Todo = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [pending, setPending] = useState(true); 
-
+    const backendUrl = import.meta.env.BACKEND_URL || 'http://localhost:8000';
     const navigate = useNavigate();
 
     const fetchTodos = async () => {
         try {
             const token = localStorage.getItem("authToken");
-            const response = await axios.get('http://localhost:8000/api/todo/getTodo', {
+            const response = await axios.get(`${backendUrl}/api/todo/getTodo`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const data = Array.isArray(response.data) ? response.data : response.data.todos || [];
@@ -111,7 +111,7 @@ const Todo = () => {
                         .map((todo) => (
                             <div key={todo._id} className='flex justify-between items-start md:items-center bg-white/80 backdrop-blur-sm p-4 md:p-5 rounded-xl shadow-sm border border-amber-100 animate-in fade-in duration-300'>
                                 <div className='flex-1 pr-3'>
-                                    <p className={`font-bold text-base md:text-lg ${todo.completed ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
+                                    <p className={`font-bold text-base md:text-lg ${todo.completed ? 'text-gray-400' : 'text-gray-800'}`}>
                                         {todo.title}
                                     </p>
                                     <p className='text-xs md:text-sm text-gray-500 mt-1'>{todo.description}</p>

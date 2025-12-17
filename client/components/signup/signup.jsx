@@ -2,17 +2,18 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 
+
 const Signup = () => {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isSignup, setIsSignup] = useState(true);
     const navigate = useNavigate();
-
+    const backendUrl = import.meta.env.BACKEND_URL || 'http://localhost:8000';
     const handleOnClick = async () => {
         try {
             const what = isSignup ? "signup":"login";
-            const response = await axios.post(`http://localhost:8000/api/users/${what}`, {
+            const response = await axios.post(`${backendUrl}/api/users/${what}`, {
                 email, username, password
             })
             const token = response.data.token;
